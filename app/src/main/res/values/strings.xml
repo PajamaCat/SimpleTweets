@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SimpleTweets</string>
+    <string name="login_label">Connect to Twitter</string>
+    <string name="title_activity_timeline">Home Timeline</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_compose_tweet">ComposeTweetActivity</string>
+    <string name="btn_tweet">Tweet</string>
+    <string name="tweet_hint">What\'s happening?</string>
+    <string name="tv_followers">FOLLOWERS</string>
+    <string name="tv_following">FOLLOWING</string>
+
+</resources>

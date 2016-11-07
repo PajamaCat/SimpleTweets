@@ -1,0 +1,14 @@
+{
+  "package": "com.codepath.apps.mysimpletweets.models",
+  "props": {
+    "long": [
+      "id"
+    ],
+    "String":[
+      "name", "screen_name", "profile_image_url", "description"
+    ],
+    "int":[
+      "followers_count", "friends_count"
+    ]
+  }
+}

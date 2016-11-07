@@ -1,0 +1,88 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
+
+    ext {
+        supportLibVersion = '24.2.1'  // variable that can be referenced to keep support libs consistent
+    }
+
+    defaultConfig {
+        applicationId "com.codepath.apps.restclienttemplate"
+        minSdkVersion 21
+        targetSdkVersion 24
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    // Related to https://github.com/scribejava/scribejava/issues/480
+    // Scribe expects Java 7 or this custom Apache library
+    lintOptions {
+        lintConfig rootProject.file('gradle/lint.xml')
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'LICENSE.txt'
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+repositories {
+    jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://clojars.org/repo/" }
+}
+
+def dbflow_version = "4.0.0-beta1"
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    // Picasso for remote image loading
+    // Android Async Http for sending async network requests
+    // DBFlow for simple persistence with an ORM
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile "com.android.support:design:24.2.1"
+    compile 'frankiesardo:icepick:3.2.0'
+    compile 'com.google.guava:guava:19.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.github.bumptech.glide:glide:3.5.2'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.3'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    provided 'frankiesardo:icepick-processor:3.2.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+}

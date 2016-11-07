@@ -1,0 +1,17 @@
+{
+  "package": "com.codepath.apps.mysimpletweets.models",
+  "imports": [
+    "com.codepath.apps.mysimpletweets.models.User"
+  ],
+  "props": {
+    "long": [
+      "id"
+    ],
+    "String":[
+      "text", "created_at"
+    ],
+    "User":[
+      "user"
+    ]
+  }
+}
