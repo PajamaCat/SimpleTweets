@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codepath.apps.mysimpletweets.R;
@@ -56,6 +58,8 @@ public class ComposeTweetFragment extends DialogFragment {
 
     @BindView(R.id.etCompose) EditText tweetComposer;
     @BindView(R.id.tvCharCount) TextView charCount;
+    @BindView(R.id.pbFooterLoading) ProgressBar progressBar;
+    @BindView(R.id.btnComposeTweet) Button btnComposeTweet;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,10 +111,13 @@ public class ComposeTweetFragment extends DialogFragment {
 
     @OnClick(R.id.btnComposeTweet)
     public void onClickComposeButton() {
+        showProgressBar();
+
         String tweet = tweetComposer.getText().toString();
         client.publishTweet(tweet, new BaseJsonHttpResponseHandler<Tweet>() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, Tweet response) {
+                hideProgressBar();
                 dismiss();
                 listener.onFinishedPublishTweet(response);
             }
@@ -158,5 +165,15 @@ public class ComposeTweetFragment extends DialogFragment {
 
     public interface Listener {
         void onFinishedPublishTweet(Tweet tweet);
+    }
+
+    private void showProgressBar() {
+        btnComposeTweet.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        btnComposeTweet.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }

@@ -88,7 +88,7 @@ public class ProfileActivity extends AppCompatActivity {
                 currentUser = response;
                 populateProfileHeader();
 
-                UserTimelineFragment fragment = UserTimelineFragment.newInstance(currentUser.getId());
+                UserTimelineFragment fragment = UserTimelineFragment.newInstance(currentUser.getUserId());
 
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.container, fragment);

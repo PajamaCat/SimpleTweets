@@ -3,20 +3,30 @@ package com.codepath.apps.mysimpletweets.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.annotation.Column;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** Automatically generated Parcelable implementation for GenTweet.
- *    DO NOT MODIFY THIS FILE MANUALLY! IT WILL BE OVERWRITTEN THE NEXT TIME
- *    GenTweet's PARCELABLE DESCRIPTION IS CHANGED.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class GenTweet implements Parcelable {
+@Table(name = "Tweets")
+public abstract class GenTweet extends Model implements Parcelable {
 
+    @Column(name="text")
     @JsonProperty("text") protected String mText;
+
+    @Column(name="created_at")
     @JsonProperty("created_at") protected String mCreated_at;
+
+    @Column(name = "user", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     @JsonProperty("user") protected User mUser;
-    @JsonProperty("id") protected long mId;
+
+    @Column(name = "tweet_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    @JsonProperty("id") protected long mTweetId;
+
+    @Column(name="origin")
+    protected String mOrigin;
 
     protected GenTweet(
             String text,
@@ -27,7 +37,7 @@ public abstract class GenTweet implements Parcelable {
         mText = text;
         mCreated_at = created_at;
         mUser = user;
-        mId = id;
+        mTweetId = id;
     }
 
     protected GenTweet() {
@@ -48,10 +58,14 @@ public abstract class GenTweet implements Parcelable {
     @JsonProperty("user")
     public void setUser(User value) { mUser = value; }
 
-    public long getId() { return mId; }
+    public long getTweetId() { return mTweetId; }
 
     @JsonProperty("id")
-    public void setId(long value) { mId = value; }
+    public void setTweetId(long value) { mTweetId = value; }
+
+    public String getOrigin() { return mOrigin; }
+
+    public void setOrigin(String origin) { mOrigin = origin; }
 
     public int describeContents() {
         return 0;
@@ -61,14 +75,16 @@ public abstract class GenTweet implements Parcelable {
         parcel.writeString(mText);
         parcel.writeString(mCreated_at);
         parcel.writeParcelable(mUser, 0);
-        parcel.writeLong(mId);
+        parcel.writeLong(mTweetId);
+        parcel.writeString(mOrigin);
     }
 
     public void readFromParcel(Parcel source) {
         mText = source.readString();
         mCreated_at = source.readString();
         mUser = source.readParcelable(User.class.getClassLoader());
-        mId = source.readLong();
+        mTweetId = source.readLong();
+        mOrigin = source.readString();
     }
 
 }

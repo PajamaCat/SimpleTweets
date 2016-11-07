@@ -3,6 +3,9 @@ package com.codepath.apps.mysimpletweets.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,15 +14,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *    GenUser's PARCELABLE DESCRIPTION IS CHANGED.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class GenUser implements Parcelable {
+@Table(name = "Users")
+public abstract class GenUser extends Model implements Parcelable {
 
-    @JsonProperty("name") protected String mName;
-    @JsonProperty("screen_name") protected String mScreen_name;
-    @JsonProperty("profile_image_url") protected String mProfile_image_url;
-    @JsonProperty("description") protected String mDescription;
-    @JsonProperty("followers_count") protected int mFollowers_count;
-    @JsonProperty("friends_count") protected int mFriends_count;
-    @JsonProperty("id") protected long mId;
+    @Column(name="name") @JsonProperty("name") protected String mName;
+    @Column(name="screen_name") @JsonProperty("screen_name") protected String mScreen_name;
+    @Column(name="profile_image_url") @JsonProperty("profile_image_url") protected String mProfile_image_url;
+    @Column(name="description") @JsonProperty("description") protected String mDescription;
+    @Column(name="followers_count") @JsonProperty("followers_count") protected int mFollowers_count;
+    @Column(name="friends_count") @JsonProperty("friends_count") protected int mFriends_count;
+
+    @Column(name = "user_id")
+    @JsonProperty("id") protected long mUserId;
 
     protected GenUser(
             String name,
@@ -29,17 +35,18 @@ public abstract class GenUser implements Parcelable {
             int followers_count,
             int friends_count,
             long id) {
-        this();
+        super();
         mName = name;
         mScreen_name = screen_name;
         mProfile_image_url = profile_image_url;
         mDescription = description;
         mFollowers_count = followers_count;
         mFriends_count = friends_count;
-        mId = id;
+        mUserId = id;
     }
 
-    protected GenUser() {
+    public GenUser() {
+        super();
     }
 
     public String getName() { return mName; }
@@ -72,10 +79,10 @@ public abstract class GenUser implements Parcelable {
     @JsonProperty("friends_count")
     public void setFriends_count(int value) { mFriends_count = value; }
 
-    public long getId() { return mId; }
+    public long getUserId() { return mUserId; }
 
     @JsonProperty("id")
-    public void setId(long value) { mId = value; }
+    public void setUserId(long value) { mUserId = value; }
 
     public int describeContents() {
         return 0;
@@ -88,7 +95,7 @@ public abstract class GenUser implements Parcelable {
         parcel.writeString(mDescription);
         parcel.writeInt(mFollowers_count);
         parcel.writeInt(mFriends_count);
-        parcel.writeLong(mId);
+        parcel.writeLong(mUserId);
     }
 
     public void readFromParcel(Parcel source) {
@@ -98,7 +105,7 @@ public abstract class GenUser implements Parcelable {
         mDescription = source.readString();
         mFollowers_count = source.readInt();
         mFriends_count = source.readInt();
-        mId = source.readLong();
+        mUserId = source.readLong();
     }
 
 }

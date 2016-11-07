@@ -1,5 +1,6 @@
 package com.codepath.apps.mysimpletweets.fragments;
 
+import com.activeandroid.query.Select;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.loopj.android.http.BaseJsonHttpResponseHandler;
@@ -19,6 +20,13 @@ public class HomeTimelineFragment extends TweetsListFragment {
         client.getHomeTimeline(sinceId, maxId, pullLatest, new BaseJsonHttpResponseHandler<List<Tweet>>() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, List<Tweet> response) {
+
+                for (Tweet tweet : response) {
+                    tweet.setOrigin(HomeTimelineFragment.class.getSimpleName());
+                    tweet.getUser().save();
+                    tweet.save();
+                }
+
                 if (pullLatest) {
                     insert(response);
                 } else {
@@ -39,6 +47,17 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 return mapper.readValue(rawJsonData, new TypeReference<List<Tweet>>(){});
             }
         });
+    }
 
+    @Override
+    public void populateTimeLineWithDB() {
+        List<Tweet> result = new Select()
+                .all()
+                .from(Tweet.class)
+                .where("origin=?", HomeTimelineFragment.class.getSimpleName())
+                .orderBy("tweet_id DESC")
+                .execute();
+
+        addAll(result);
     }
 }

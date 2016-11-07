@@ -60,7 +60,7 @@ public class TimelineActivity extends AppCompatActivity implements
     }
 
     public void onClickProfileImage(User user) {
-        startActivity(ProfileActivity.intentForUserId(this, user.getId()));
+        startActivity(ProfileActivity.intentForUserId(this, user.getUserId()));
     }
 
     @Override

@@ -1,11 +1,10 @@
 package com.codepath.apps.mysimpletweets;
 
+import android.content.Context;
+
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowLog;
 import com.raizlabs.android.dbflow.config.FlowManager;
-
-import android.app.Application;
-import android.content.Context;
 
 /*
  * This is the Android application itself and is used to configure various settings
@@ -16,7 +15,7 @@ import android.content.Context;
  *     // use client to send requests to API
  *
  */
-public class TwitterApplication extends Application {
+public class TwitterApplication extends com.activeandroid.app.Application {
 	private static Context context;
 
 	@Override

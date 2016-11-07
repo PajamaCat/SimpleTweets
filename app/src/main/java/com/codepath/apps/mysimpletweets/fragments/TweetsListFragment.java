@@ -2,6 +2,8 @@ package com.codepath.apps.mysimpletweets.fragments;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -110,15 +112,17 @@ public class TweetsListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        populateTimeLine(false);
+        if (isNetworkAvailable()) {
+            populateTimeLine(false);
+        } else {
+            populateTimeLineWithDB();
+        }
     }
-
-
 
     public void addAll(List<Tweet> tweets) {
         if (!tweets.isEmpty()) {
-            maxId = Math.min(maxId, tweets.get(tweets.size() - 1).getId() - 1);
-            sinceId = Math.max(sinceId, tweets.get(0).getId());
+            maxId = Math.min(maxId, tweets.get(tweets.size() - 1).getTweetId() - 1);
+            sinceId = Math.max(sinceId, tweets.get(0).getTweetId());
         } else {
             return;
         }
@@ -129,8 +133,8 @@ public class TweetsListFragment extends Fragment {
 
     public void insert(List<Tweet> tweets) {
         if (!tweets.isEmpty()) {
-            maxId = Math.min(maxId, tweets.get(tweets.size() - 1).getId());
-            sinceId = Math.max(sinceId, tweets.get(0).getId());
+            maxId = Math.min(maxId, tweets.get(tweets.size() - 1).getTweetId());
+            sinceId = Math.max(sinceId, tweets.get(0).getTweetId());
         } else {
             return;
         }
@@ -146,12 +150,21 @@ public class TweetsListFragment extends Fragment {
         if (tweet == null)
             return;
 
-        maxId = Math.min(maxId, tweet.getId());
-        sinceId = Math.max(sinceId, tweet.getId());
+        maxId = Math.min(maxId, tweet.getTweetId());
+        sinceId = Math.max(sinceId, tweet.getTweetId());
 
         this.tweets.add(0, tweet);
         adapter.notifyDataSetChanged();
     }
 
     protected void populateTimeLine(boolean pullLatest) {}
+
+    protected void populateTimeLineWithDB() {}
+
+    public Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
 }

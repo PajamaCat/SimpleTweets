@@ -18,5 +18,4 @@ public class Tweet extends GenTweet {
             return object;
         }
     };
-
 }
