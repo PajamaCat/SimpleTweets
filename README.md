@@ -63,8 +63,10 @@ Implemented limited functionality due to time constraints.
 
 ## Open-source libraries used
 
-- [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
-- [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [Glide](https://github.com/bumptech/glide/) - Image loading and caching library for Android
+- [Icepick](https://github.com/frankiesardo/icepick/) - An Android library that eliminates the boilerplate of saving and restoring instance state.
+- [Butterknife](http://jakewharton.github.io/butterknife/) - Field and method binding for Android views
+- [PagerSlidingTpbStrip](https://github.com/astuetz/PagerSlidingTabStrip) - Interactive paging indicator widget, compatible with the ViewPager from the Android Support Library.
 
 ## License
 
